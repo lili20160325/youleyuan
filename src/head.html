@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#14081f">
+<meta name="description" content="星灯游乐园·午夜闭园：闭园后被锁在园里，过山车、鬼屋、兑奖屋一路找出谁关了电。">
+<title>星灯游乐园 · 午夜闭园</title>
+<style>
+:root{--ink:#ffeef6;--ink2:#c9a8c0;--pink:#ff7ab6;--pink2:#4a1a38;--purple:#c48bff;--purple2:#2e1848;--mint:#5ee0c4;--mint2:#14352c;--sun:#ffd166;--sun2:#3a3010;--sky:#6ee0ff;--sky2:#143050;--coral:#ff7b6b;--card:#1a0f28;--r:20px;--shadow:0 6px 18px rgba(20,0,30,.45)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;overflow-x:hidden}
+body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;color:var(--ink);background:
+radial-gradient(ellipse 80% 50% at 50% -10%,rgba(255,122,182,.18),transparent 55%),
+radial-gradient(ellipse 40% 30% at 90% 20%,rgba(110,224,255,.1),transparent 50%),
+radial-gradient(ellipse 40% 30% at 10% 80%,rgba(196,139,255,.12),transparent 50%),
+linear-gradient(165deg,#0c0614 0%,#14081f 40%,#1a0a2a 100%) fixed;
+-webkit-user-select:none;user-select:none;overscroll-behavior-y:auto}
+body::before{content:"";pointer-events:none;position:fixed;inset:0;z-index:0;opacity:.55;background-image:
+radial-gradient(1.5px 1.5px at 12% 18%,#fff 40%,transparent 50%),
+radial-gradient(1.5px 1.5px at 28% 8%,#ffe08a 40%,transparent 50%),
+radial-gradient(1px 1px at 47% 22%,#fff 40%,transparent 50%),
+radial-gradient(1.5px 1.5px at 66% 12%,#ffb3d9 40%,transparent 50%),
+radial-gradient(1px 1px at 83% 28%,#fff 40%,transparent 50%),
+radial-gradient(1px 1px at 91% 7%,#6ee0ff 40%,transparent 50%),
+radial-gradient(1.5px 1.5px at 18% 62%,#fff 40%,transparent 50%),
+radial-gradient(1px 1px at 73% 70%,#ffe08a 40%,transparent 50%),
+radial-gradient(1px 1px at 39% 84%,#fff 40%,transparent 50%),
+radial-gradient(1.5px 1.5px at 58% 44%,#fff 40%,transparent 50%);background-size:100% 100%}
+button{font-family:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulation;background:none}
+button:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+h1,h2,h3,p{margin:0}
+.screen{display:none;min-height:100vh;min-height:100dvh;position:relative;z-index:1}
+.screen.active{display:block;animation:fadein .25s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.wrap{max-width:1040px;margin:0 auto;padding:12px 14px 28px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:14px;border:1px solid rgba(255,122,182,.12)}
+.btn{border-radius:16px;padding:12px 18px;font-size:17px;font-weight:800;background:#2a1638;box-shadow:0 4px 0 rgba(0,0,0,.35);transition:transform .08s;min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:6px;color:var(--ink)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.btn.primary{background:linear-gradient(180deg,#ff8ec4,#ff4f9a);color:#fff;box-shadow:0 5px 0 #c4286e}
+.btn.purple{background:linear-gradient(180deg,#d2a6ff,#9b5cff);color:#fff;box-shadow:0 5px 0 #6d33d0}
+.btn.mint{background:linear-gradient(180deg,#6eebcf,#1fb185);color:#083028;box-shadow:0 5px 0 #188d69}
+.btn.sun{background:linear-gradient(180deg,#ffe08a,#ffb820);color:#6b4a00;box-shadow:0 5px 0 #d99500}
+.btn.ghost{background:rgba(255,255,255,.08)}
+.btn.coral{background:linear-gradient(180deg,#ff9a8b,#ff6b5a);color:#fff;box-shadow:0 5px 0 #d94a3a}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.iconbtn{width:46px;height:46px;border-radius:15px;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 3px 0 rgba(0,0,0,.2);font-size:22px;flex:none}
+.tag{display:inline-block;font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--purple2);color:#e4c8ff;white-space:nowrap}
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;padding:10px 12px;background:rgba(16,6,26,.92);backdrop-filter:blur(6px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.topbar .ttl{flex:1;min-width:0;font-size:18px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .ttl small{display:block;font-size:12px;font-weight:700;color:var(--ink2)}
+.hintbtn{height:46px;border-radius:15px;padding:0 12px;background:linear-gradient(180deg,#ffe58a,#ffc93c);box-shadow:0 3px 0 #dba21a;font-weight:900;font-size:16px;display:inline-flex;align-items:center;gap:4px;flex:none;color:#6b4a00}
+.home-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 2px 4px}
+.logo{font-size:26px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#ff7ab6,#ffd166 45%,#6ee0ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--ink2);font-size:14px;margin-top:2px}
+.starpill{display:inline-flex;align-items:center;gap:4px;background:#2a1638;border-radius:999px;padding:6px 12px;font-weight:900;box-shadow:var(--shadow)}
+.starpill svg{width:20px;height:20px}
+.mascot{display:flex;align-items:center;gap:10px;margin:12px 0}
+.mascot .face{font-size:46px;flex:none;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+.bubble{background:#2a1638;border-radius:16px;padding:10px 14px;font-size:15px;box-shadow:var(--shadow);position:relative;line-height:1.5;border:1px solid rgba(255,122,182,.15)}
+.prog-banner{background:linear-gradient(135deg,#7a2060,#4a28a8);color:#fff;border-radius:20px;padding:14px 16px;box-shadow:0 6px 0 rgba(0,0,0,.25),var(--shadow);margin-bottom:14px}
+.prog-banner b{font-size:22px;display:block}
+.prog-banner span{font-size:14px;opacity:.95}
+.list-intro{margin:4px 2px 12px;color:var(--ink2);font-size:14px;line-height:1.5}
+.home-foot{margin-top:16px;text-align:center;color:var(--ink2);font-size:13px;line-height:1.6}
+.home-reset{margin:10px 0 12px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.home-reset .btn{min-height:44px;padding:10px 14px;font-size:14px;border:2px dashed #5a3a68;background:#1a0f28;color:#c9a8c0;box-shadow:none}
+.mask{position:fixed;inset:0;background:rgba(10,0,20,.62);z-index:50;display:none;align-items:flex-end;justify-content:center}
+.mask.show{display:flex;animation:fadein .2s}
+.sheet{background:#1a0f28;width:100%;max-width:560px;max-height:88vh;max-height:88dvh;overflow:auto;border-radius:26px 26px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.45);color:var(--ink);border:1px solid rgba(255,122,182,.16)}
+@media(min-width:700px){.mask{align-items:center}.sheet{border-radius:26px}}
+.sheet-h{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sheet-h h3{flex:1;font-size:20px;font-weight:900}
+.xbtn{width:42px;height:42px;border-radius:14px;background:#2a1638;font-size:20px;font-weight:900;flex:none;color:var(--ink)}
+.say{font-size:16px;line-height:1.65}
+.note{margin:10px 0;background:#241034;border:2px dashed #6a3a70;border-radius:14px;padding:12px 14px;font-size:16px;line-height:1.75;white-space:pre-line;color:#f0d4e8}
+.banner{background:var(--mint2);color:#7ddcc0;border-radius:14px;padding:10px 12px;font-weight:800;font-size:15px;margin-bottom:10px;line-height:1.5}
+.banner.bad{background:#3a2020;color:#ff9a8b}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.actions .btn{flex:1;min-width:120px}
+.gnote{font-size:13px;color:var(--ink2);line-height:1.5;margin:6px 0}
+.lock{margin-top:12px;background:#2a1638;border-radius:18px;padding:12px;box-shadow:inset 0 0 0 2px #4a2a58}
+.lock-p{font-size:14px;color:var(--ink2);font-weight:700;text-align:center;margin-bottom:8px}
+.codebox{display:flex;justify-content:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.codebox span{width:42px;height:52px;border-radius:12px;background:#0e0818;border:3px solid #4a2a58;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:var(--ink)}
+.codebox span.f{border-color:var(--pink);background:#2a1230}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:330px;margin:0 auto}
+.pad button,.kb button{background:#3a2048;border-radius:14px;min-height:50px;font-size:22px;font-weight:900;box-shadow:0 3px 0 #0e0818;color:var(--ink)}
+.pad button:active,.kb button:active{transform:translateY(2px);box-shadow:none}
+.kb{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;max-width:420px;margin:0 auto}
+.kb button{min-height:46px;font-size:19px}
+.dials{display:flex;justify-content:center;gap:16px}
+.dial{display:flex;flex-direction:column;align-items:center;gap:6px}
+.dial .ch{width:68px;height:72px;border-radius:16px;background:#2a1840;border:3px solid #c48bff;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:900;font-family:"Noto Serif CJK SC","Songti SC",serif}
+.dial button{width:68px;height:44px;border-radius:12px;background:#3a2048;font-size:20px;box-shadow:0 3px 0 #0e0818;color:var(--ink)}
+.choices{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.choices button{width:66px;height:66px;border-radius:16px;box-shadow:0 4px 0 rgba(0,0,0,.18);border:3px solid rgba(255,255,255,.2)}
+.lock .ok{width:100%;margin-top:10px}
+.room-wrap{max-width:1040px;margin:0 auto;padding:10px 12px 24px;display:grid;gap:10px}
+@media(min-width:900px){.room-wrap{grid-template-columns:1.7fr 1fr;align-items:start}}
+.scene-box{background:#0c0818;border-radius:20px;box-shadow:var(--shadow);overflow:hidden;line-height:0;position:relative;border:1px solid rgba(255,209,102,.15)}
+#scene{width:100%;height:auto;display:block;aspect-ratio:4/3}
+#scene .obj,#scene .hit{cursor:pointer}
+#scene .obj:hover{filter:brightness(1.1)}
+#scene .hl{fill:none;stroke:#ffd166;stroke-width:4;stroke-dasharray:8 6;animation:dash 1s linear infinite;pointer-events:none}
+@keyframes dash{to{stroke-dashoffset:-28}}
+.msg{background:#2a1638;border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.6;box-shadow:var(--shadow);min-height:52px}
+.inv-h{display:flex;align-items:center;justify-content:space-between;font-weight:900;font-size:15px;margin:2px 4px}
+.inv-h small{font-weight:700;color:var(--ink2);font-size:12px}
+.inv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.slot{background:rgba(255,255,255,.06);border-radius:14px;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid transparent;padding:4px 2px;box-shadow:0 3px 0 rgba(0,0,0,.15);color:var(--ink)}
+.slot .ic{font-size:28px;line-height:1.1}
+.slot .nm{font-size:11px;font-weight:700;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.slot.empty{background:rgba(255,255,255,.03);box-shadow:none}
+.slot.sel{border-color:#ff7ab6;background:#3a1840;transform:translateY(-3px)}
+.slot.glow .ic{filter:drop-shadow(0 0 6px #ffd166)}
+.side{display:flex;flex-direction:column;gap:10px}
+.room-tools{display:flex;gap:8px;flex-wrap:wrap}
+.room-tools .btn{flex:1;font-size:15px;min-height:44px;padding:8px}
+.exits{display:flex;flex-wrap:wrap;gap:8px}
+.exits .btn{flex:1;min-width:42%;font-size:15px;min-height:48px}
+.exits .btn.locked{opacity:.5}
+.story p{font-size:16px;line-height:1.75;margin-bottom:6px}
+.win{text-align:center}
+.win .wt{font-size:24px;font-weight:900;margin:6px 0}
+.win .bigstars{display:flex;justify-content:center;gap:8px;margin:8px 0}
+.win .bigstars svg{width:56px;height:56px;transform:scale(0);animation:pop .4s ease forwards}
+.win .bigstars svg:nth-child(2){animation-delay:.2s}.win .bigstars svg:nth-child(3){animation-delay:.4s}
+@keyframes pop{70%{transform:scale(1.2)}to{transform:scale(1)}}
+.win .ws{color:var(--ink2);font-size:14px;margin-bottom:8px}
+.explain{text-align:left;background:#2a1638;border-radius:16px;padding:12px 14px;margin-top:10px;box-shadow:inset 0 0 0 2px #4a2a58}
+.explain h4{margin:0 0 6px;font-size:16px}
+.explain ol{margin:0;padding-left:22px;font-size:15px;line-height:1.7}
+.ending{background:#2a1848;border-radius:14px;padding:10px 12px;font-size:15px;line-height:1.6;margin-top:10px;text-align:left}
+.hint-list{display:flex;flex-direction:column;gap:8px}
+.hint-item{background:#2a1848;border-radius:14px;padding:10px 12px;font-size:16px;line-height:1.6}
+.hint-item b{color:#ffd166}
+.hint-cost{font-size:13px;color:var(--ink2);margin-top:8px;text-align:center}
+.journal li{margin:0 0 10px;line-height:1.6}
+.journal .locked-j{color:var(--ink2);opacity:.7}
+.map-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.map-cell{background:#2a1638;border-radius:14px;padding:10px 8px;text-align:center;font-size:13px;font-weight:800;min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:2px solid transparent;color:var(--ink)}
+.map-cell.here{border-color:#ffd166;background:#3a2040;box-shadow:0 0 12px rgba(255,209,102,.25)}
+.map-cell.seen{border-color:#ff7ab6}
+.map-cell.locked{opacity:.4;filter:grayscale(.6)}
+.map-cell .em{font-size:22px}
+.claw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.claw-cell{background:#2a1638;border-radius:16px;min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 0 rgba(0,0,0,.25);font-size:14px;font-weight:800;padding:8px;color:var(--ink)}
+.claw-cell .em{font-size:36px}
+.claw-cell:active{transform:translateY(2px);box-shadow:none}
+.diff-wrap{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.diff-pane{background:#0c0818;border-radius:12px;overflow:hidden;border:2px solid #4a2a58;position:relative;line-height:0}
+.diff-pane svg{width:100%;height:auto;display:block}
+.diff-pane .spot{fill:transparent;stroke:transparent;cursor:pointer}
+.diff-pane .spot.on{fill:rgba(255,209,102,.25);stroke:#ffd166;stroke-width:3}
+.diff-count{text-align:center;font-weight:800;margin:6px 0;color:#ffd166}
+#toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);background:rgba(20,8,36,.95);color:#fff;padding:12px 18px;border-radius:16px;font-size:15px;font-weight:700;z-index:80;opacity:0;pointer-events:none;transition:.25s;max-width:calc(100vw - 32px);text-align:center;line-height:1.5;border:1px solid rgba(255,122,182,.3)}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+.confetti{position:fixed;top:-20px;width:10px;height:14px;z-index:90;pointer-events:none;animation:fall linear forwards;border-radius:2px}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.lights{display:flex;gap:6px;justify-content:center;margin:8px 0 2px}
+.lights i{width:10px;height:10px;border-radius:50%;display:block;animation:blink 1.6s ease-in-out infinite}
+.lights i:nth-child(1){background:#ff7ab6;animation-delay:0s}
+.lights i:nth-child(2){background:#ffd166;animation-delay:.2s}
+.lights i:nth-child(3){background:#6ee0ff;animation-delay:.4s}
+.lights i:nth-child(4){background:#c48bff;animation-delay:.6s}
+.lights i:nth-child(5){background:#5ee0c4;animation-delay:.8s}
+@keyframes blink{0%,100%{opacity:.35;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<section class="screen active" id="scr-home"><div class="wrap">
+  <div class="home-head"><div><div class="logo">星灯游乐园</div><div class="sub">午夜闭园 · 谁关了电</div></div>
+    <div style="display:flex;gap:8px;align-items:center"><span class="starpill" id="homeStars"></span><button class="iconbtn" data-act="mute" aria-label="声音开关"></button></div></div>
+  <div class="lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="mascot"><div class="face">🎠</div><div class="bubble" id="owlSay">家庭日结束了。你回园里找掉了的兑奖券，大门却锁上，灯一盏盏灭掉……天亮前，找出谁关了电，把大门打开。</div></div>
+  <div class="prog-banner"><b id="progText">准备出发</b><span>一条主线 · 12 处深夜场景 · 道具会带到下一间</span></div>
+  <p class="list-intro">这是一座连成一片的夜间游乐园，不是一关一关刷题。点场景里的物件找线索，拿道具、开锁、组合；假密码和涂鸦也会出现。兑奖屋有抓娃娃，镜宫有找不同——都是机关，不是功课。</p>
+  <div class="actions" style="margin:0 0 12px"><button class="btn primary" data-act="start" id="startBtn" style="flex:2">🎡 开始夜航</button><button class="btn ghost" data-act="howto">玩法说明</button></div>
+  <div class="home-reset"><button class="btn" data-act="resetProgress" type="button">🗑 清空存档重来</button></div>
+  <div class="home-foot">存档 key：youleyuan_midnight_v1（与旧版密室互不影响）· 卡住了点「💡 提示」</div>
+</div></section>
+<section class="screen" id="scr-room">
+  <div class="topbar"><button class="iconbtn" data-act="home" aria-label="返回首页">←</button><div class="ttl" id="roomTitle"></div><button class="iconbtn" data-act="map" aria-label="园区地图">🗺️</button><button class="iconbtn" data-act="journal" aria-label="线索本">📒</button><button class="hintbtn" data-act="hint">💡 提示</button><button class="iconbtn" data-act="mute" aria-label="声音开关"></button></div>
+  <div class="room-wrap">
+    <div class="scene-box"><svg id="scene" viewBox="0 0 400 300" role="img" aria-label="房间场景"></svg></div>
+    <div class="side">
+      <div class="msg" id="roomMsg"></div>
+      <div class="inv-h">🎒 物品栏 <small id="invTip">点物品可以选中它</small></div>
+      <div class="inv" id="inv"></div>
+      <div class="inv-h">🚶 可以去的地方</div>
+      <div class="exits" id="exits"></div>
+      <div class="room-tools"><button class="btn ghost" data-act="story">📖 看故事</button><button class="btn ghost" data-act="roomReset">🔄 重新开始</button></div>
+    </div>
+  </div>
+</section>
+<div class="mask" id="mask"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<div id="toast"></div>
+<script>
